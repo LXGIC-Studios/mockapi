@@ -1,115 +1,105 @@
 ---
-name: Mock API Server CLI
-description: Spin up mock REST APIs instantly. JSON file to API. OpenAPI support. Hot reload. Free mock server.
-tags: [mock, api, server, rest, testing, openapi, cli, development]
+name: MockAPI - Instant REST API from JSON
+description: Spin up a mock REST API server from JSON files in seconds. Full CRUD, filtering, pagination. Zero config. Free CLI tool for frontend developers.
 ---
 
-# Mock API Server CLI
+# MockAPI
 
-Spin up mock APIs in seconds.
+Create a REST API from a JSON file. Perfect for frontend development, testing, prototyping.
 
-**JSON → API. OpenAPI → Server. Just works.**
+## Installation
+
+```bash
+npm install -g @lxgicstudios/mockapi
+```
 
 ## Quick Start
 
 ```bash
-npm install -g mockapi-cli
+# Create example db.json
+npx @lxgicstudios/mockapi --init
+
+# Start server
+npx @lxgicstudios/mockapi db.json
 ```
 
-```bash
-# From JSON file
-mockapi start db.json
+## Data File Format
 
-# From OpenAPI spec
-mockapi start openapi.yaml
-
-# Quick mock
-mockapi quick '{"users": [{"id": 1, "name": "John"}]}'
-```
-
-## JSON File Format
-
+Create `db.json`:
 ```json
-// db.json
 {
   "users": [
-    { "id": 1, "name": "John" },
-    { "id": 2, "name": "Jane" }
+    { "id": 1, "name": "Alice", "email": "alice@example.com" },
+    { "id": 2, "name": "Bob", "email": "bob@example.com" }
   ],
   "posts": [
-    { "id": 1, "title": "Hello", "userId": 1 }
+    { "id": 1, "title": "Hello", "body": "Content", "userId": 1 }
   ]
 }
 ```
 
-**Generated Routes:**
-- GET /users
-- GET /users/:id
-- POST /users
-- PUT /users/:id
-- DELETE /users/:id
-- (same for posts)
+## Generated Routes
 
-## Commands
+For each resource (users, posts):
 
-```bash
-# Start server
-mockapi start db.json
+| Method | Route | Description |
+|--------|-------|-------------|
+| GET | /users | List all |
+| GET | /users/:id | Get by id |
+| POST | /users | Create |
+| PUT | /users/:id | Replace |
+| PATCH | /users/:id | Update |
+| DELETE | /users/:id | Delete |
 
-# Custom port
-mockapi start db.json --port 4000
-
-# With delay (simulate latency)
-mockapi start db.json --delay 500
-
-# With random errors
-mockapi start db.json --chaos 10
-
-# Watch for changes
-mockapi start db.json --watch
-
-# CORS enabled
-mockapi start db.json --cors
-```
-
-## Advanced Features
+## Query Parameters
 
 ```bash
-# Custom routes
-mockapi start --routes routes.js
+# Filter
+GET /users?name=Alice
 
-# Middleware
-mockapi start db.json --middleware auth.js
+# Pagination
+GET /users?_page=1&_limit=10
 
-# Record mode (save requests)
-mockapi start db.json --record
-
-# Replay mode
-mockapi replay recorded.json
+# Sort
+GET /users?_sort=name&_order=asc
 ```
 
-## Route Customization
+## Options
 
-```javascript
-// routes.js
-module.exports = {
-  '/api/auth/login': (req, res) => {
-    res.json({ token: 'mock-token' });
-  },
-  '/api/slow': {
-    delay: 2000,
-    response: { status: 'ok' }
-  }
-};
+| Option | Description |
+|--------|-------------|
+| `-p, --port` | Port (default: 3001) |
+| `-d, --delay` | Response delay in ms |
+| `-w, --watch` | Watch file for changes |
+| `-r, --readonly` | Disable mutations |
+| `--init` | Create example db.json |
+
+## Common Use Cases
+
+**Frontend development:**
+```bash
+npx @lxgicstudios/mockapi db.json --watch
 ```
 
-## When to Use This
+**Demo with delay:**
+```bash
+npx @lxgicstudios/mockapi db.json --delay 500
+```
 
-- Frontend development
-- API prototyping
-- Integration testing
-- Demo environments
-- Offline development
+**Read-only API:**
+```bash
+npx @lxgicstudios/mockapi db.json --readonly
+```
+
+## Features
+
+- Full CRUD operations
+- Automatic ID generation
+- Filtering and pagination
+- Sorting
+- CORS enabled
+- Hot reload with --watch
+- Persistent changes to JSON
 
 ---
 
