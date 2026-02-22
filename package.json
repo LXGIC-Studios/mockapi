@@ -36,13 +36,13 @@
     "type": "git",
     "url": "git+https://github.com/LXGIC-Studios/mockapi.git"
   },
-  "homepage": "https://github.com/lxgicstudios/mockapi#readme",
+  "homepage": "https://github.com/LXGIC-Studios/mockapi#readme",
   "bugs": {
-    "url": "https://github.com/lxgicstudios/mockapi/issues"
+    "url": "https://github.com/LXGIC-Studios/mockapi/issues"
   },
   "funding": {
     "type": "github",
-    "url": "https://github.com/sponsors/lxgicstudios"
+    "url": "https://github.com/sponsors/LXGIC-Studios"
   },
   "engines": {
     "node": ">=16.0.0"
